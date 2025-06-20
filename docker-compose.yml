@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  client:
+    build: ./client
+    image: gautam789/photoshare-client:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    environment:
+      - NEXT_PUBLIC_API_URL=http://server:4000
+  server:
+    build: ./server
+    image: gautam789/photoshare-server:latest
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_URI=mongodb+srv://Gautam:root@cluster0.4fsv80f.mongodb.net/PhotoShare?retryWrites=true&w=majority&appName=Cluster0
+      - API_HOST=localhost
+      - API_PORT=4000
