@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: gautam789/photoshare-server:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-uri
+            - name: API_HOST
+              value: server-service
+            - name: API_PORT
+              value: "4000"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 4000
+      targetPort: 4000
+  selector:
+    app: server
