@@ -30,6 +30,7 @@ PhotoShare is a full-stack photo sharing application built with Next.js (fronten
 
 ## Project Structure
 - `client/` - Next.js frontend
+  ![Frontend](./SS/Frontend.png)
 - `server/` - Node.js/Express backend
 - `k8s/` - Kubernetes manifests
 
